@@ -8,7 +8,7 @@
 	set /p input="Type the network SSID/name you wish to fetch the password from: "
 
 	:: Save network information in file
-	netsh wlan show profile %input% key=clear | find "Key Content" > school_project.txt
+	netsh wlan show profile %input% key=clear | find "Key Content" > WiFi_Key_Content.txt
 
 	:: Clears the command prompt
 	cls
