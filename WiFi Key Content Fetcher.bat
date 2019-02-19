@@ -19,6 +19,5 @@
 
 	:: Print network information on command propmpt
 	netsh wlan show profile %input% key=clear | find "Key Content"
-	echo ------------------------------------------------------------------
-	echo.
+	echo ------------------------------------------------------------------ & echo.
 pause
