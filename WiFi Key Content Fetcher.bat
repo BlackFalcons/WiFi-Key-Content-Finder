@@ -10,7 +10,7 @@
     set sepLine=echo ------------------------------------------------------------------
 
     :: Save network information in file
-    %networkContent% | find "Key Content"> WiFi_Key_Content.txt
+    %networkContent% | find "Key Content" > WiFi_Key_Content.txt
     cls
 
     :: Inform about network encryption key location
