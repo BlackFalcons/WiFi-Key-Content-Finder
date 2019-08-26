@@ -1,23 +1,54 @@
 @echo off
-    :: Fetch network names
-    echo A list of currently known network names (SSID) &echo.
-    netsh wlan show profile | find "All User Profile"
-    echo.
+    :: Terminal color
+    color 1F
 
-    :: Userinput variable SSID name
-    set /p input="Type the network SSID/name you wish to fetch the password from: "
-    set networkContent=netsh wlan show profile %input% key=clear
+    :: Seperation line
     set sepLine=echo ------------------------------------------------------------------
 
-    :: Save network information in file
-    %networkContent% | find "Key Content" > WiFi_Key_Content.txt
+    :restartProgram
+    :: Fetch SSID
+    echo A list of currently known network names (SSID) & echo.
+    %sepLine%
+    netsh wlan show profile | find "All User Profile" & %sepLine% & echo.
+
+    :: input variable for the SSID name
+    set /p input="Enter the WiFi SSID/name you wish to fetch the password from: "
+
+    :: WiFi data
+    set networkContent=netsh wlan show profile %input% key=clear
+    set WiFiKeyContent=%networkContent% ^| find "Key Content"
+    set WiFiSSIDName=%networkContent% ^| find "SSID name"
+
+    :: Data storage file
+    set keyStorageFile=WiFi_Key_Content.txt
+
+    :: Store WiFi key and SSID in the programs allocated spot
+    date /t >> %keyStorageFile%
+    %WiFiSSIDName% >> %keyStorageFile%
+    %WiFiKeyContent% >> %keyStorageFile%
+    %sepLine% >> %keyStorageFile%
+
+    :: DEVELOPER OPTION - Prevent data storage file from saving
+    :: del %keyStorageFile%
     cls
 
-    :: Inform about network encryption key location
-    echo The password to the network is after the colon of the Key Content & echo.
+    :: Help text for non-technical users
+    echo The WiFi password is written after the colon of the Key Content & echo.
     %sepLine%
 
     :: Print network information on command propmpt
-    %networkContent% |  find "Key Content"
+    %WiFiSSIDName%
+    %WiFiKeyContent%
     %sepLine% & echo.
-pause
+    pause
+    cls
+
+:: Ask if the user want to exit the program
+set /p areYouSure="Do you wish to exit the program? (Y/[N])"
+if /I "%areYouSure%" neq "y" goto end
+exit
+:end
+
+:: Returns to the top of the program
+cls
+goto restartProgram
