@@ -5,6 +5,6 @@ I made this script for my girlfriend specifically as she had problems getting ac
 - Displays a list of known WiFi names (SSID).
 
 ## Storage features
-- Store date when the key was fetched.
+- Store data when the key was fetched.
 - Store WiFi name (SSID).
 - Store the key content of a previously used WiFi network.
